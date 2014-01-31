@@ -568,6 +568,24 @@ class Tiddler:
             if item:
                 links.add(''.join(item.groups('')))
 
+        # <<click link_text [passage_name]>>
+        for block in re.findall(r'\<\<click\s+(.*?)\s*\>\>', self.text):
+            items = re.findall(r'(?:"([^"]*)")|(?:\'([^\']*)\')|([^"\'\[\s]\S*)', block)
+            if len(items) >= 2:
+                links.add(''.join(items[1]))
+
+        # <<link [link_text] link_location [visit_action]>>
+        for block in re.findall(r'\<\<link\s+(.*?)\s*\>\>', self.text):
+            items = re.findall(r'(?:"([^"]*)")|(?:\'([^\']*)\')|([^"\'\[\s]\S*)', block)
+            if len(items) == 2:
+                last = ''.join(items[-1])
+                if last in ('keep', 'remove'):
+                    links.add(''.join(items[0]))
+                else:
+                    links.add(last)
+            elif len(items) == 3:
+                links.add(''.join(items[1]))
+
         # <<actions '' ''>>
         for block in re.findall(r'\<\<actions\s+(.*?)\s?\>\>', self.text):
             links.update(re.findall(r'[\'"](.*?)[\'"]', block))
