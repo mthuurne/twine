@@ -308,6 +308,10 @@ class TiddlyWiki:
     SPECIAL_TAGS = frozenset(['Twine.image'])
     NOINCLUDE_TAGS = frozenset(['Twine.private', 'Twine.system'])
     INFO_TAGS = frozenset(['script', 'stylesheet', 'annotation']) | SPECIAL_TAGS | NOINCLUDE_TAGS
+    # SugarCube additions:
+    INFO_PASSAGES |= frozenset(['MenuOptions', 'MenuShare', 'MenuStory', 'PassageReady', 'PassageDone',
+                                'StoryBanner', 'StoryCaption'])
+    INFO_TAGS |= frozenset(['widget'])
 
 
 class Tiddler:
